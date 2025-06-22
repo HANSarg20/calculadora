@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora Simple</title>
+    <style>
+        /* Estilos CSS para la calculadora */
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f0f0f0;
+            margin: 0;
+        }
+
+        .calculadora {
+            background-color: #333;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .pantalla {
+            background-color: #444;
+            color: #fff;
+            font-size: 2.5em;
+            text-align: right;
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            min-height: 1.5em; /* Asegura un alto mínimo */
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            word-wrap: break-word; /* Permite que el texto se rompa */
+            overflow: hidden; /* Oculta el desbordamiento si el número es muy largo */
+        }
+
+        .botones {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        .boton {
+            background-color: #666;
+            color: #fff;
+            font-size: 1.5em;
+            padding: 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .boton:hover {
+            background-color: #888;
+        }
+
+        .boton.operador {
+            background-color: #ff9500;
+        }
+
+        .boton.operador:hover {
+            background-color: #cc7a00;
+        }
+
+        .boton.igual {
+            grid-column: span 2; /* Ocupa dos columnas */
+            background-color: #ff9500;
+        }
+
+        .boton.igual:hover {
+            background-color: #cc7a00;
+        }
+
+        .boton.clear {
+            background-color: #d12f2f;
+        }
+
+        .boton.clear:hover {
+            background-color: #a32222;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="calculadora">
+        <div class="pantalla" id="pantalla">0</div>
+        <div class="botones">
+            <button class="boton clear" onclick="clearPantalla()">C</button>
+            <button class="boton operador" onclick="agregarCaracter('/')">/</button>
+            <button class="boton operador" onclick="agregarCaracter('*')">*</button>
+            <button class="boton" onclick="agregarCaracter('7')">7</button>
+            <button class="boton" onclick="agregarCaracter('8')">8</button>
+            <button class="boton" onclick="agregarCaracter('9')">9</button>
+            <button class="boton operador" onclick="agregarCaracter('-')">-</button>
+            <button class="boton" onclick="agregarCaracter('4')">4</button>
+            <button class="boton" onclick="agregarCaracter('5')">5</button>
+            <button class="boton" onclick="agregarCaracter('6')">6</button>
+            <button class="boton operador" onclick="agregarCaracter('+')">+</button>
+            <button class="boton" onclick="agregarCaracter('1')">1</button>
+            <button class="boton" onclick="agregarCaracter('2')">2</button>
+            <button class="boton" onclick="agregarCaracter('3')">3</button>
+            <button class="boton igual" onclick="calcularResultado()">=</button>
+            <button class="boton" onclick="agregarCaracter('0')">0</button>
+            <button class="boton" onclick="agregarCaracter('.')">.</button>
+        </div>
+    </div>
+
+    <script>
+        // Lógica JavaScript para la calculadora
+        const pantalla = document.getElementById('pantalla');
+        let expresion = '';
+
+        function agregarCaracter(char) {
+            if (pantalla.textContent === 'Error' || pantalla.textContent === '0') {
+                pantalla.textContent = ''; // Limpiar la pantalla si hay un error o un 0 inicial
+                expresion = '';
+            }
+            expresion += char;
+            pantalla.textContent = expresion;
+        }
+
+        function clearPantalla() {
+            expresion = '';
+            pantalla.textContent = '0';
+        }
+
+        function calcularResultado() {
+            try {
+                // Evaluar la expresión matemática
+                // eslint-disable-next-line no-eval
+                let resultado = eval(expresion);
+                pantalla.textContent = resultado;
+                expresion = String(resultado); // Guardar el resultado para futuras operaciones
+            } catch (error) {
+                pantalla.textContent = 'Error';
+                expresion = ''; // Limpiar la expresión en caso de error
+            }
+        }
+    </script>
+</body>
+</html>
